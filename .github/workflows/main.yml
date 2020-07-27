@@ -171,7 +171,7 @@ jobs:
           path: /tmp/imgcache
           key: ${{ env.CACHE_KEY_AGENCY }}
       - name: If no cached image found, pull and save to cache
-        if: steps.load-cached-image-node.outputs.cache-hit != 'true'
+        # if: steps.load-cached-image-node.outputs.cache-hit != 'true'
         run: |
           set -x
           docker pull $DOCKER_IMG_NAME_AGENCY
@@ -209,7 +209,7 @@ jobs:
           path: /tmp/imgcache
           key: ${{ env.CACHE_KEY_LIBVCX }}
       - name: If NOT found in cache, build and cache image.
-        if: steps.cache-image.outputs.cache-hit != 'true'
+        # if: steps.cache-image.outputs.cache-hit != 'true'
         run: |
           set -x
           docker build --build-arg "INDYSDK_REPO=$INDYSDK_REPO" \

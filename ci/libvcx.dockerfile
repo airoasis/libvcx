@@ -103,6 +103,13 @@ COPY --from=BASE --chown=indy /usr/lib/libvcx.so /usr/lib/libvcx.so
 COPY --from=BASE --chown=indy /usr/lib/libnullpay.so /usr/lib/libnullpay.so
 
 COPY --from=BASE --chown=indy /home/indy/libvcx ./libvcx
+COPY --from=BASE --chown=indy /home/indy/wrappers/node ./wrappers/node
+
+# Install node
+ARG NODE_VER
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VER} | bash -
+RUN apt-get install -y nodejs
+
 RUN chown -R indy . 
 
 USER indy
@@ -111,13 +118,6 @@ USER indy
 ARG RUST_VER
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain ${RUST_VER}
 ENV PATH /home/indy/.cargo/bin:$PATH
-#
-# Install node
-ARG NODE_VER
-RUN apt-get update && apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VER} | bash -
-RUN apt-get install -y nodejs
-
 
 LABEL org.label-schema.schema-version="1.0"
 LABEL org.label-schema.name="libvcx"
